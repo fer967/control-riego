@@ -4,11 +4,11 @@
 #include <ArduinoJson.h>
 
 // ---- WiFi ----
-const char* ssid = "Fibertel WiFi901 2.4GHz";
-const char* password = "0041840868";
+const char* ssid = "su_usuario";
+const char* password = "su_contraseña";
 
 // ---- Servidor FastAPI ----
-const char* serverUrl = "http://192.168.0.91:8000/datos";
+const char* serverUrl = "server_url";
 
 const int PIN_SOIL_ADC = 34;   // HL-69 AO
 const int PIN_TRIG     = 33;   // HC-SR04 TRIG
