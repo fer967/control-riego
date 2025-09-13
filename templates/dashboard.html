@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Sensores</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Dashboard de Sensores</h2>
+  <canvas id="myChart" width="800" height="400"></canvas>
+
+  <script>
+    const labels = {{ labels | tojson | safe }};
+    const soilData = {{ soil | tojson | safe }};
+    const distData = {{ dist | tojson | safe }};
+
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Humedad Suelo (raw)',
+            data: soilData,
+            borderColor: 'blue',
+            backgroundColor: 'blue',
+            fill: false,
+            pointRadius: 3,
+            tension: 0.2,
+            yAxisID: 'y1'
+          },
+          {
+            label: 'Distancia (cm)',
+            data: distData,
+            borderColor: 'red',
+            backgroundColor: 'red',
+            fill: false,
+            pointRadius: 3,
+            tension: 0.2,
+            yAxisID: 'y2'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        stacked: false,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Mediciones de Sensores en Tiempo Real'
+          }
+        },
+        scales: {
+          y1: {
+            type: 'linear',
+            position: 'left',
+            title: {
+              display: true,
+              text: 'Humedad (raw)'
+            }
+          },
+          y2: {
+            type: 'linear',
+            position: 'right',
+            title: {
+              display: true,
+              text: 'Distancia (cm)'
+            },
+            grid: {
+              drawOnChartArea: false,
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+<!--
+labels: JSON.parse('{{ labels | tojson | safe if labels else "[]" }}')
+temps: JSON.parse('{{ temps | tojson | safe if temps else "[]" }}'),
+hums: JSON.parse('{{ hums | tojson | safe if hums else "[]" }}')
+
+labels = JSON.parse ('{{ labels | tojson | safe if labels else "[]" }}');
+soilData = JSON.parse ('{{ soilData | tojson | safe if soilData else "[]" }}');
+distData = JSON.parse ('{{ distData | tojson | safe if distData else "[]" }}');
+
+const labels = {{ labels | tojson }};
+const soilData = {{ soil | tojson }};
+const distData = {{ dist | tojson }};
+
+const labels = {{ labels | tojson | safe }};
+const soilData = {{ soil | tojson | safe }};
+const distData = {{ dist | tojson | safe }};  ultima
+
+-->
